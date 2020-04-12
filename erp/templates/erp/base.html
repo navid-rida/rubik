@@ -439,10 +439,10 @@ John Abraham</span>is now following you
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-product" aria-controls="submenu-rubik"><i class="fas fa-fw fa-file"></i>Products</a>
                                 <div id="submenu-product" class="collapse submenu" style="">
                                     <ul class="nav flex-column">
+                                       
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'create_customer' %}">Create Customer</a>
+                                            <a class="nav-link" href="{% url 'create_product' %}">Add Product</a>
                                         </li>
-                                        
                                         
                                     </ul>
                                 </div>
@@ -454,7 +454,9 @@ John Abraham</span>is now following you
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'create_quotation' %}">Create Quotations</a>
                                         </li>
-                                        
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'create_product' %}">Add Product</a>
+                                        </li>
                                         
                                     </ul>
                                 </div>
