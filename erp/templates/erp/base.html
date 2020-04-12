@@ -336,6 +336,7 @@ John Abraham</span>is now following you
                                     </ul>
                                 </div>
                             </li>
+                         
                             <li class="nav-item">
                                 <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-7" aria-controls="submenu-7"><i class="fas fa-fw fa-inbox"></i>Apps <span class="badge badge-secondary">New</span></a>
                                 <div id="submenu-7" class="collapse submenu" style="">
@@ -416,6 +417,51 @@ John Abraham</span>is now following you
                                         <li class="nav-item">
                                             <a class="nav-link" href="#">Level 3</a>
                                         </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-divider">
+                                Rubik Menu
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-customer" aria-controls="submenu-rubik"><i class="fas fa-fw fa-file"></i>Customers</a>
+                                <div id="submenu-customer" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'create_customer' %}">Create Customer</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'create_product' %}">Add Product</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-product" aria-controls="submenu-rubik"><i class="fas fa-fw fa-file"></i>Products</a>
+                                <div id="submenu-product" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'create_customer' %}">Create Customer</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'create_product' %}">Add Product</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-quotation" aria-controls="submenu-rubik"><i class="fas fa-fw fa-file"></i>Quotations</a>
+                                <div id="submenu-quotation" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'create_quotation' %}">Create Quotations</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'create_product' %}">Add Product</a>
+                                        </li>
+                                        
                                     </ul>
                                 </div>
                             </li>
