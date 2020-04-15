@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'customuser.apps.CustomuserConfig',
     ########################## Additional Apps###################################
     'widget_tweaks',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -122,9 +123,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
+"""STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]"""
+"""STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'"""
 
 ############################## Custom User and Authentication ###############################################
 
 AUTH_USER_MODEL = 'customuser.User'
 LOGOUT_REDIRECT_URL='login'
 LOGIN_REDIRECT_URL='index'
+
+
+
+############################ Crispy forms ##########################################
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
