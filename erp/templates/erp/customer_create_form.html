@@ -1,4 +1,7 @@
 {% extends "erp/base.html" %}
+{% load crispy_forms_tags %}
+
+
 {% block pageheader %}<h2 class="pageheader-title">Create New Customer </h2> {% endblock %}
                                     {% block breadcrumb %}
                                             <ol class="breadcrumb">
@@ -60,10 +63,7 @@
 
                                 <form method="POST">
                                     {% csrf_token %}
-                                    {% for field in form %}
-                                        {{ field.label}} {{ field}}
-                                        <br>
-                                    {% endfor %}
+                                     {{ form|crispy }}
                                     <input type="submit" value="Submit">
 
                                 </form>

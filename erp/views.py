@@ -2,9 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required,user_passes_test
-from django.views.generic.edit import CreateView
-from .models import Customer, Product, Quotation
 
+from django.views.generic.edit import CreateView, UpdateView
+from .models import *
+from django.db import transaction
+
+from .forms import *
 
 # Create your views here.
 @login_required
@@ -32,5 +35,41 @@ class ProductCreateView(CreateView):
 class QuotationCreateView(CreateView):
     model=Quotation
     template_name = 'erp/quotation/quotation_create_form.html'
-    fields=['product','shipping_charge','vat_percent','tax_percent','advance','later_payment', 'customer']
+    #fields=['shipping_charge','vat_percent','tax_percent','advance','later_payment', 'customer']
+    form_class = QuotationForm
     success_url= reverse_lazy('create_quotation')
+
+    def get_context_data(self, **kwargs):
+        data = super(QuotationCreateView, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['products'] = QuotationProductFormSet(self.request.POST)
+        else:
+            data['products'] = QuotationProductFormSet()
+        return data
+    
+    def form_valid(self, form):
+        context = self.get_context_data()
+        products = context['products']
+        with transaction.atomic():
+            self.object = form.save()
+            if products.is_valid():
+                products.instance = self.object
+                products.save()
+        return super(QuotationCreateView, self).form_valid(form)
+
+
+
+def select_quotation_product(request):
+    if request.method== "POST":
+        pform = ProductSelectForm(request.POST)
+        if pform.is_valid():
+            products = pform.cleaned_data['products']
+            context = {'pform': pform, 'products': products}
+            return render(request,'erp/quotation/quotation_create_form.html', context)
+        else:
+            context = {'pform': pform}
+            return render(request,'erp/quotation/quotation_create_form.html', context)
+    else:
+        pform = ProductSelectForm()
+        context = {'pform': pform}
+        return render(request,'erp/quotation/quotation_create_form.html', context)

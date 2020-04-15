@@ -1,6 +1,4 @@
 {% extends "erp/base.html" %}
-{% load crispy_forms_tags %}
-
 {% block pageheader %}<h2 class="pageheader-title">Select Products </h2> {% endblock %}
                                     {% block breadcrumb %}
                                             <ol class="breadcrumb">
@@ -15,16 +13,20 @@
                         {% block content %}
                         
 
-                        <div class="container">
-                            <div class="card">
-                                <div class="card-header">
-                                    Create Quotation
-                                </div>
-                                <div class="card-body">
-                                     {% crispy form %}
-                                </div>
-                            </div>
-                        </div>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    {% for field in pform %}
+                                        {{ field.label}} {{ field}}
+                                        {{field.errors}}
+                                        <br>
+                                    {% endfor %}
+                                    <input type="submit" value="Submit">
+
+                                </form>
+
+                                {% if products %}
+                                    {{ products}}
+                                {% endif %}
 
                                     
                                 {% endblock %}
