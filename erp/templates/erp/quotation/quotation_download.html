@@ -1,0 +1,98 @@
+{%load static %}
+{% load widget_tweaks %}
+<!doctype html>
+<html lang="en">
+
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Rubik ERP</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{%static "assets/vendor/bootstrap/css/bootstrap.min.css" %}">
+    
+    <link rel="stylesheet" href="{%static "assets/vendor/fonts/fontawesome/css/fontawesome-all.css" %}">
+    
+
+
+</head>
+
+<body>
+
+<div align=center>
+<h2>ধন্যবাদ, আপনাকে</h2><br>
+
+<p>রুবিক প্রিন্টের মূলমন্ত্রই হচ্ছে দেশের অর্থনীতির গতিকে যারা সচল রাখছে তাদের সাফল্য যাত্রায় সহযোগিতার সঙ্গী হওয়া।
+যুগোপযোগী ডিজাইন আর প্রিমিয়াম প্রিন্টিং এর মাধ্যমে উদ্যোক্তাদের সফলতার অংশ হতে চায় রুবিক প্রিন্ট। তাই কর্পোরেট
+উদ্যোক্তাদের চাহিদার মান রেখে আমরা তাদের জন্য রেখেছি কাস্টম প্যাকেজ। রুবিক প্রিন্ট আপনার যাত্রার সঙ্গী হতে পারুক বা না
+পারুক, আপনাকে ধন্যবাদ। ধন্যবাদ নিজেদের মেধা আর শ্রম দিয়ে দেশের অর্থনীতির পালাবদলের চালিকা হওয়ার জন্য</p>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>SL</th>
+      <th>Description</th>
+      <th>Unit</th>
+      <th>Unit Price(BDT)</th>
+      <th>Price(BDT)</th>
+    </tr>
+
+  </thead>
+  <tbody>
+    {% for product in quotation.quotationproduct_set.all %}
+    <tr>
+      <td>{{forloop.counter}}</td>
+      <td>
+        {{ product.product.name }}<br>
+
+        - Material: {{product.paper_material}}<br>
+
+        - Size: {{product.product.height}}" X {{product.product.width}}" X {{product.product.length}}" <br>
+
+        - {{product.product.color_number}}-Color Dedicated Print<br>
+
+        - Addon: Rope Handle<br>
+      </td>
+      <td>{{product.unit}}</td>
+      <td>{{product.price}}</td>
+      <td>{{product.get_total_price}}</td
+
+    </tr>
+    {% endfor %}
+    <tr>
+      <td></td>
+      <td>Shipping Charge</td>
+      <td colspan="3">Varies Depending on Carrier Type, Location and Weight</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Advance Payment ({{quotation.advance_percent}}%)</td>
+      <td colspan="3">BDT {{quotation.get_advance_payment}}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Cash On delivery</td>
+      <td colspan="3">BDT {{quotation.get_due_payment}}</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>Sub total(excluding delivery charge)</td>
+      <td colspan="3">BDT {{quotation.get_quotation_price}}</td>
+    </tr>
+
+  </tbody>
+
+</table>
+<br>
+★ ঝুকিগত কারণে রুবিক প্রিন্ট ৫০% পেমেন্ট অগ্রিম গ্রহণ করে। বাকি অর্ধেক পেমেন্ট ডেলিভারির সময় বা ক্যাশ অন ডেলিভারি বা
+পণ্য পৌঁছানোর পর নেয়া হবে।<br>
+
+★ আপনার নিজস্ব ডিজাইন থাকলে, কি কি তথ্য প্রিন্টে থাকবে ( ব্যবসায়ের নাম, ঠিকানা, ইমেইল, ওয়েবসাইট, ফোন নাম্বার ইত্যাদি )
+সেটা সহ আমাদের ইমেইল করুন support@rubikprint.com । ডিজাইন ফাইল অবশ্যই ai, svg, eps এই তিনটা ফর‍্যমাটের যেকোন একটা হতে
+হবে। আমাদের ডিজাইনার টিমের মাধ্যমে নতুন করে ফাইল বানানো লাগবে আলাদা চার্জ প্রযোজ্য। সেক্ষেত্রে মুল ডিজাইনের নুন্যতম ৮০
+ভাগ সাদৃশ্য রাখার প্রতিশ্রুতি নিতে পারি আমরা।
+
+</body>
+</div>
+</html>

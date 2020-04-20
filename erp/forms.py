@@ -46,8 +46,8 @@ class QuotationForm(forms.ModelForm):
                 Field('shipping_charge'),
                 Field('vat_percent'),
                 Field('tax_percent'),
-                Field('advance'),
-                Field('later_payment'),
+                Field('advance_percent'),
+                
                 
                 Fieldset('Add Products',
                     Formset('products')),

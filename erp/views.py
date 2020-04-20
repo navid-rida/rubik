@@ -1,15 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+from django.utils import timezone
+from django.conf import settings
 from django.contrib.auth.decorators import login_required,user_passes_test
 
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.detail import DetailView
 from .models import *
 from django.db import transaction
 
 from django.contrib.messages.views import SuccessMessageMixin
 
 from .forms import *
+
+from weasyprint import HTML, CSS
+from weasyprint.fonts import FontConfiguration
+
+from pathlib import Path
 
 # Create your views here.
 @login_required
@@ -55,7 +63,7 @@ class QuotationCreateView(SuccessMessageMixin, CreateView):
     template_name = 'erp/quotation/quotation_create_form.html'
     #fields=['shipping_charge','vat_percent','tax_percent','advance','later_payment', 'customer']
     form_class = QuotationForm
-    success_url= reverse_lazy('create_quotation')
+    #success_url= reverse_lazy('show_quotation_template', kwargs={'pk': self.object.id})
     success_message = "A quotation was created successfully with Serial No: %(id)s "
 
     def get_success_message(self, cleaned_data):
@@ -63,6 +71,9 @@ class QuotationCreateView(SuccessMessageMixin, CreateView):
             cleaned_data,
             id = self.object.id,
         )
+
+    def get_success_url(self):
+        return reverse_lazy('show_quotation_template', kwargs={'pk': self.object.id})
 
     def get_context_data(self, **kwargs):
         data = super(QuotationCreateView, self).get_context_data(**kwargs)
@@ -83,8 +94,31 @@ class QuotationCreateView(SuccessMessageMixin, CreateView):
         return super(QuotationCreateView, self).form_valid(form)
 
 
+class QuotationDownloadView(DetailView):
+    model = Quotation
+    template_name = 'erp/quotation/quotation_preview.html'
 
-def select_quotation_product(request):
+
+def download_quotation(request, pk):
+    quotation = get_object_or_404(Quotation, pk=pk)
+    context = {'quotation': quotation}
+    response = HttpResponse(content_type="application/pdf")
+    response['Content-Disposition'] = "inline; filename={date}-{name}-quotation.pdf".format(
+        date=timezone.now(),
+        name=quotation.customer.name,
+    )
+    html = render_to_string("erp/quotation/quotation_download.html", context)
+    #result = rem.pay_previously_unpaid_cash_incentive()
+    #return render(request, 'rem/detail/trm.html', context)
+
+    font_config = FontConfiguration()
+    #css_path = Path(settings.STATIC_ROOT,'css/bootstrap/bootstrap.css')
+    css_path = Path(settings.STATIC_ROOT,'assets/vendor/bootstrap/css/bootstrap.min.css')
+    css = CSS(css_path)
+    HTML(string=html).write_pdf(response, stylesheets=[css], font_config=font_config)
+    return response
+
+"""def select_quotation_product(request):
     if request.method== "POST":
         pform = ProductSelectForm(request.POST)
         if pform.is_valid():
@@ -97,4 +131,4 @@ def select_quotation_product(request):
     else:
         pform = ProductSelectForm()
         context = {'pform': pform}
-        return render(request,'erp/quotation/quotation_create_form.html', context)
+        return render(request,'erp/quotation/quotation_create_form.html', context)"""
