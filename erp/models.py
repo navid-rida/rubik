@@ -31,9 +31,24 @@ class Quotation(models.Model):
     shipping_charge = models.DecimalField('Shipping Charge', max_digits=20, decimal_places=2)
     vat_percent = models.DecimalField('Vat (Percent)', max_digits=5, decimal_places=2)
     tax_percent = models.DecimalField('Tax (Percent)', max_digits=5, decimal_places=2)
-    advance = models.DecimalField('Advance Payment', max_digits=20, decimal_places=2)
-    later_payment = models.DecimalField('To be paid later', max_digits=20, decimal_places= 2)
+    advance_percent = models.DecimalField('Advance Payment (percent)', max_digits=5, decimal_places=2, default=50)
+    #later_payment = models.DecimalField('To be paid later', max_digits=20, decimal_places= 2)
     customer = models.ForeignKey(Customer, on_delete= models.CASCADE)
+
+    def get_quotation_price(self):
+        """Sums prices of all product items. return total Quotation value"""
+        price=0
+        for item in self.quotationproduct_set.all():
+            price = price + item.get_total_price()
+        return price
+
+    def get_advance_payment(self):
+        advance = (self.get_quotation_price()*self.advance_percent)/100
+        return advance
+
+    def get_due_payment(self):
+        due = self.get_quotation_price() - self.get_advance_payment()
+        return due
 
 
 class QuotationProduct(models.Model):
@@ -41,3 +56,8 @@ class QuotationProduct(models.Model):
     quotation = models.ForeignKey(Quotation, on_delete= models.CASCADE)
     unit = models.IntegerField('Unit')
     price = models.DecimalField('Unit Price (BDT)', max_digits=20, decimal_places=2)
+
+    def get_total_price(self):
+        """ Calculates and returns price for a row"""
+        price = self.unit * self.price
+        return price
