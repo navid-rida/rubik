@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
 from .models import *
 from django.db import transaction
 
@@ -93,6 +94,15 @@ class QuotationCreateView(SuccessMessageMixin, CreateView):
                 products.save()
         return super(QuotationCreateView, self).form_valid(form)
 
+class QuotationListView(SuccessMessageMixin, ListView):
+    model=Quotation
+    paginate_by = 100  # if pagination is desired
+    template_name = 'erp/quotation/quotation_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
 
 class QuotationDownloadView(DetailView):
     model = Quotation
