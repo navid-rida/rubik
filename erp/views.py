@@ -45,7 +45,7 @@ class CustomerCreateView(SuccessMessageMixin, CreateView):
 class ProductCreateView(SuccessMessageMixin, CreateView):
     model=Product
     template_name = 'erp/product/product_create_form.html'
-    fields=['name','paper_material','height','width','length','color_number']
+    fields= '__all__'
     success_url= reverse_lazy('create_product')
     success_message = "Product %(name)s was created successfully with ID No: %(id)s "
 

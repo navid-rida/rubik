@@ -16,12 +16,37 @@ class Customer(models.Model):
 
 
 class Product(models.Model):
-    name  = models.CharField('Product Name', max_length=50)
-    paper_material = models.CharField('Paper material', max_length=50)
+    name  = models.CharField('Product Name', max_length=100)
+    paper_material = models.CharField('Paper material', max_length=100)
     height = models.DecimalField('Height (in inch)', max_digits = 4, decimal_places = 2)
     width = models.DecimalField('Width (in inch)', max_digits = 4, decimal_places = 2)
     length = models.DecimalField('Length (in inch)', max_digits = 4, decimal_places = 2)
     color_number = models.IntegerField('Number of Printer Colors') # Restrict to 12 in validation
+    dye_cutting = models.BooleanField('Dye Cutting')
+    COATED_CHOICES = (('ML', 'Matt Lamination'),
+                      ('MS', 'Matt & Spot Laminatio'),
+                      ('GL', 'Glossy Laminatio'),
+                      ('GE', 'Glue Lamination'))
+    coated_with = models.CharField('Coated with', max_length=2, choices = COATED_CHOICES )
+    pages = models.IntegerField('Page / Book')
+    cover_page_material = models.CharField('Cover Paper Material', max_length=100)
+    cover_color_number = models.IntegerField('Cover Number of Printer Colors') # Restrict to 12 in validation
+    body_page_material = models.CharField('Body Paper Material', max_length=100)
+    number_pieces_master = models.IntegerField('Number of Pieces / Master')
+    number_machine_master = models.IntegerField('Number of Machine / Master')
+    machine_height = models.DecimalField('Machine Height (in inch)', max_digits = 3, decimal_places = 2)
+    machine_width = models.DecimalField('Machine Width (in inch)', max_digits = 3, decimal_places = 2)
+    MACHINE_CHOICES = (('GTO', 'GTO'),
+                      ('GTO Big', 'GTO Big'),
+                      ('Demai', 'Demai'),
+                      ('Over Demai', 'Over Demai'),
+                      ('Double Demai','Double Demai' ))
+    machine_type = models.CharField('Machine Type', max_length=2, choices = COATED_CHOICES )
+    weight = models.DecimalField('Weight (kilogram)', max_digits = 4, decimal_places = 2)
+    base_quantity = models.IntegerField('Base Quantity')
+    price_per_piece = models.DecimalField('Base Price per piece (BDT)', max_digits = 6, decimal_places = 2)
+    increment_quantity = models.IntegerField('Increment Quantity')
+    price_per_piece_increment = models.DecimalField('Increment per piece Price (rate after base quantity)', max_digits = 6, decimal_places = 2)
 
     def __str__(self):
         return self.name
